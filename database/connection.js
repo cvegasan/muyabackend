@@ -13,4 +13,7 @@ export const pool = new Pool({
    password: process.env.PG_PASSWORD,
    database: process.env.PG_DATABASE,
   allowExitOnIdle: true,
+  ssl: {
+    rejectUnauthorized: false, // Puedes ajustarlo según tus necesidades
+  },
 });
