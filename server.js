@@ -19,6 +19,7 @@ import favoritos from './routes/favoritosRoutes.js';
 // Obtener el puerto desde el archivo .env o usar un valor por defecto
 dotenv.config();
 const PORT = process.env.PG_PORT || 3000;
+const HOST = ('RENDER' in process.env) ? '0.0.0.0':'localhost'
 
 const app = express();
 
@@ -39,8 +40,11 @@ app.use('/metodo_pagos',metodo_pagos);
 app.use('/estado_pedidos',estado_pedidos);
 app.use('/favoritos',favoritos);
 
-const server = app.listen(PORT, () => {
-  console.log(`Servidor corriendo en http://localhost:${PORT}`);
-});
+// const server = app.listen(PORT, () => {
+//   console.log(`Servidor corriendo en http://localhost:${PORT}`);
+// });
 
+const server = app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Servidor corriendo en el puerto ${PORT}`);
+});
 export default server;
