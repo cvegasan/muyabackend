@@ -40,11 +40,8 @@ app.use('/metodo_pagos',metodo_pagos);
 app.use('/estado_pedidos',estado_pedidos);
 app.use('/favoritos',favoritos);
 
-// const server = app.listen(PORT, () => {
-//   console.log(`Servidor corriendo en http://localhost:${PORT}`);
-// });
-
-const server = app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`);
+const server = app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://${HOST}:${PORT}`);
 });
+
 export default server;
