@@ -98,3 +98,7 @@ Mon, 10 Feb 2025 20:04:41 GMT -- method: POST -- url: /usuarios/login -- status:
 Mon, 10 Feb 2025 20:05:12 GMT -- method: GET -- url: /usuarios -- status: 403 -- response-time: 1061.519 ms
 Mon, 10 Feb 2025 20:05:35 GMT -- method: GET -- url: /usuarios -- status: 200 -- response-time: 1563.732 ms
 Mon, 10 Feb 2025 20:07:04 GMT -- method: GET -- url: /pagos -- status: 200 -- response-time: 954.633 ms
+Sat, 15 Feb 2025 21:07:21 GMT -- method: GET -- url: /pagos -- status: 401 -- response-time: 6.854 ms
+Sat, 15 Feb 2025 21:07:41 GMT -- method: GET -- url: /usuarios -- status: 401 -- response-time: 2.166 ms
+Sat, 15 Feb 2025 21:08:34 GMT -- method: GET -- url: /productos -- status: 200 -- response-time: 2478.304 ms
+Sat, 15 Feb 2025 21:10:21 GMT -- method: GET -- url: /productos -- status: 200 -- response-time: 399.749 ms
