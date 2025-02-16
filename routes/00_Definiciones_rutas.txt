@@ -1,0 +1,349 @@
+==================================================================================
+Resumen Rutas
+==================================================================================
+[ ]  POST      /login      (lo va a hacer Angela, debe retornar el toker y usu_id)
+[N.A]POST      /registro   (quedo dentro de /usuarios/registro)
+
+[X]GET       /roles
+[X]GET       /roles/{id}
+[X]POST      /roles
+[X]PUT       /roles/{id}
+[X]DELETE    /roles/{id}
+
+[X]GET       /usuarios
+[X]POST      /usuarios/registro (cambio)
+
+[ ]GET       /usuarios/{id}        VER si se puede agregar despues
+[ ]GET       /usuarios/pedido/{id} VER si se puede agregar despues
+[ ]DELETE    /usuarios/{id}        VER si se puede agregar despues
+
+[X]GET       /categoria
+[X]GET       /categoria/{id}
+[X]POST      /categoria
+[X]PUT       /categoria/{id}
+[X]DELETE    /categoria/{id}
+
+[X]GET       /productos
+[X]GET       /productos/2 --> para renderizar las imagenes por categorias, sino ocupar 1 (plantas), como parametro solamente
+[X]POST      /productos
+[X]PUT       /productos/2
+[X]DELETE    /productos/2
+
+[N.A]/carro_compra
+[N.A]/carro_compra/{usuarioId}
+[N.A]/carro_compra/{carrito_id}/detalles
+
+[X]GET       /pedidos
+[ ]GET       /pedidos/usuario/{id} buscar pedidos de usuario "juanito perez"
+[X]POST      /pedidos
+[X]PUT       /pedidos/{id}
+
+PENDIENTE
+[X]GET       /pago
+[X]GET       /pago/{id}
+[X]POST      /pago
+[X]PUT       /pago/{id}
+[X]DELETE    /pago/{id}
+
+[X]GET       /resenas
+[X]GET       /resenas/{id} (reseña por id de producto)
+[X]GET       /resenas/producto/usuario/{id_usuario} (reseña por usuario)
+[X]POST      /resenas
+[X]PUT       /resenas/{id}
+[X]DELETE    /resenas/{id}
+
+[X]GET       /favoritos
+[X]GET       /favoritos/{id}
+[X]GET       /favoritos/{usuario}
+[X]GET       /favoritos/{producto}
+
+==================================================================================
+Ejemplos JSON para pruebas
+==================================================================================
+--JSON [USUARIOS]
+GET     http://localhost:5510/usuarios/
+POST    http://localhost:5510/usuarios/login
+{
+    "usu_email": "dddd.perez@email.com",
+    "usu_contrasena": "1234321"
+}
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VfZW1haWwiOiJkZGRkLnBlcmV6QGVtYWlsLmNvbSIsImlhdCI6MTczOTExNDY3MX0.94WtM96EY3j2Tgu78AFR5zgD9EcL1FJuSY5rwfpFxKw",
+  "id": 11
+}
+
+POST    http://localhost:5510/usuarios/ (registro del usuario)
+{
+  "usu_nombre": "DDDD Perez",
+  "usu_email": "dddd.perez@email.com",
+  "usu_contrasena": "1234321",
+  "usu_direccion": "Av. Principal 222 Ciudad",
+  "usu_telefono": "123456789",
+  "rol_id": 2
+}
+
+-- JSON [CARRO COMPRA (PEDIDO-PEDIDO_DETALLE)]
+GET     http://localhost:5510/pedidos
+GET     http://localhost:5510/pedidos/usuario/1
+
+POST    http://localhost:5510/pedidos
+{
+    "usu_id": "1",
+    "ped_total": "100000",
+    "esp_id": "2", -->estado del pedido pagado
+    "detalles": [
+        {
+            "pro_id": "1",
+            "det_cantidad": "10",
+            "det_precio_unitario": "1000"
+        },
+        {
+            "pro_id": "3",
+            "det_cantidad": "30",
+            "det_precio_unitario": "3000"
+        }
+    ]
+}
+PUT     http://localhost:5510/pedidos/{:id_pedido}
+        http://localhost:5510/pedidos/12
+{
+  "usu_id": 1,
+  "ped_total": "150000",
+  "esp_id": 2,
+  "detalles": [
+    {
+      "pro_id": 1,
+      "det_cantidad": 5,
+      "det_precio_unitario": "1100"
+    },
+    {
+      "pro_id": 2,
+      "det_cantidad": 3,
+      "det_precio_unitario": "10000"
+    }
+  ]
+}
+
+--JSON [Productos]
+GET     http://localhost:5510/productos
+
+GET     http://localhost:5510/productos/{id}
+        http://localhost:5510/productos/1
+{
+  "pro_id": 1,
+  "pro_descripcion": "Rosa del Desierto",
+  "pro_caracteristica": "Planta decorativa resistente al sol",
+  "pro_precio": "1000.00",
+  "pro_stock": 1000,
+  "pro_imagen_url": "url-imagen-rosa",
+  "cat_id": 1
+}
+
+POST    http://localhost:5510/productos
+{
+  "pro_descripcion": "Maceta de cerámica",
+  "pro_caracteristica": "Resistente al agua",
+  "pro_precio": 12.99,
+  "pro_stock": 50,
+  "pro_imagen_url": "https://example.com/maceta.jpg",
+  "cat_id": 1
+}
+PUT     http://localhost:5510/productos/{id}
+        http://localhost:5510/productos/1 -->Actualizacion producto 1
+{
+  "pro_descripcion": "Maceta de cerámica grande",
+  "pro_caracteristica": "Resistente al agua y al sol",
+  "pro_precio": 1599,
+  "pro_stock": 40,
+  "pro_imagen_url": "https://example.com/maceta-grande.jpg",
+  "cat_id": 1
+}
+
+DELETE http://localhost:3000/productos/1
+
+--JSON [Rol]
+GET     http://localhost:5510/roles
+GET     http://localhost:5510/roles/:id
+
+POST http://localhost:5510/roles (Crear un rol)
+{
+  "rol_id": 3,
+  "rol_descripcion": "Administrador"
+}
+
+PUT http://localhost:5510/roles/3 (Actualizar un rol)
+{
+  "rol_descripcion": "Super Administrador"
+}
+
+DELETE http://localhost:5510/roles/3 (Eliminar un rol)
+
+--JSON [Categorias]
+GET     http://localhost:5510/categorias
+GET     http://localhost:5510/categorias/:id
+
+POST    http://localhost:5510/categorias (Crear una categoría)
+{
+  "cat_nombre": "Electrónica"
+}
+
+PUT     http://localhost:5510/categorias/1
+{
+  "cat_nombre": "Tecnología"
+}
+
+DELETE http://localhost:5510//categorias/1 (Eliminar una categoría)
+{
+  "message": "Categoría eliminada correctamente"
+}
+
+--JSON [Resenas]
+GET     http://localhost:5510/resenas
+GET     http://localhost:5510/resenas/:id
+GET     http://localhost:5510/resenas/producto/usuario/:id (id de usuario)
+
+POST    http://localhost:5510/resenas (Crear una reseña)
+{
+  "usu_id": 1,
+  "pro_id": 2,
+  "res_calificacion": 5,
+  "res_comentario": "Excelente producto"
+}
+
+PUT     http://localhost:5510/resenas/10 (Actualizar una reseña)
+{
+  "res_calificacion": 4,
+  "res_comentario": "Producto bueno pero algo costoso"
+}
+
+DELETE http://localhost:5510/resenas/10 (Eliminar una reseña)
+
+--JSON [Pagos]
+GET     http://localhost:5510/pagos
+GET     http://localhost:5510/pagos/:id
+
+POST   http://localhost:5510/pagos (Crear una pago)
+{
+  "ped_id": 1,  -->identificador del pedido
+  "met_id": 1,  -->metodo de pago 1:TARJETA CREDITO/2:Paypal/3:Transferencia
+  "est_id": 2   -->estado de pago: 1:pendiente/2: COMPLETADO
+}
+
+{
+  "message": "Pago creado exitosamente",
+  "pag_id": 10
+}
+
+PUT     http://localhost:5510/pagos/{id}
+{
+  "ped_id": 1,  -->identificador del pedido
+  "met_id": 3,  -->metodo de pago 1:tarjeta credito/2:Paypal/3:TRANSFERENCIA
+  "est_id": 2   -->estado de pago: 1:pendiente/2: COMPLETADO
+}
+
+DELETE  http://localhost:5510/pagos/{id}
+{
+  "message": "Pago eliminado exitosamente"
+}
+
+--JSON [Estado_pagos]
+GET     http://localhost:5510/estado_pagos
+GET     http://localhost:5510/estado_pagos/:id
+
+POST    http://localhost:5510/estado_pagos (Crear una estado_pago)
+{
+  "est_id": 1,
+  "est_descripcion": "Pendiente"
+}
+{
+  "message": "Estado de pago creado exitosamente",
+  "est_id": 1
+}
+
+PUT     http://localhost:5510/estado_pagos/{id}
+PUT     http://localhost:5510/estado_pagos/1
+{
+  "est_descripcion": "En curso"
+}
+
+DELETE  http://localhost:5510/estado_pagos/{id}
+
+--JSON [Metodo_pagos]
+GET     http://localhost:5510/metodo_pagos
+GET     http://localhost:5510/metodo_pagos/:id
+
+POST    http://localhost:5510/metodo_pagos (Crear un metodo de pago)
+{
+  "met_id": 1,
+  "met_descripcion": "Tarjeta de crédito"
+}
+{
+  "message": "Método de pago creado exitosamente",
+  "met_id": 1
+}
+
+PUT     http://localhost:5510/metodo_pagos/{id}
+PUT     http://localhost:5510/metodo_pagos/1
+{
+  "met_descripcion": "Cheque"
+}
+
+DELETE  http://localhost:5510/metodo_pagos/{id}
+
+--JSON [Estado_pedidos]
+GET     http://localhost:5510/estado_pedidos
+GET     http://localhost:5510/estado_pedidos/:id
+
+POST    http://localhost:5510/estado_pedidos (Crear un estado pedido)
+{
+  "esp_id":5,
+  "esp_descripcion": "En proceso"
+}
+
+PUT     http://localhost:5510/estado_pedidos/{id}
+PUT     http://localhost:5510/estado_pedidos/1
+{
+  "esp_descripcion": "Enviado"
+}
+
+DELETE  http://localhost:5510/estado_pedidos/{id}
+DELETE  http://localhost:5510/estado_pedidos/1
+
+--JSON [favoritos]
+GET     http://localhost:5510/favoritos
+GET     http://localhost:5510/favoritos/:id (correlativo favoritos)
+GET     http://localhost:5510/favoritos/usuario/:user (favorito por usuario)
+GET     http://localhost:5510/favoritos/producto/:prod (favorito por producto)
+
+POST    http://localhost:5510/favoritos
+{
+    "usu_id": 1,
+    "pro_id": 3
+}
+
+PUT     http://localhost:5510/favoritos/:id
+{
+    "usu_id": 2,
+    "pro_id": 1
+}
+
+
+--JSON [favoritos] con RUTA PROTEGIDA
+1. POST http://localhost:5510/usuarios/login
+{
+    "usu_email": "dddd.perez@email.com",
+    "usu_contrasena": "1234321"
+}
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImVtYWlsIjoiZGRkZC5wZXJlekBlbWFpbC5jb20iLCJpYXQiOjE3MzkxNTQyMjQsImV4cCI6MTczOTE1NzgyNH0.e6Qh4DF8zygh9pJ265w3S1cmmMrjHJXCQH-MNNlYVyA",
+  "id": 11,
+  "email": "dddd.perez@email.com"
+}
+2. PUT http://localhost:5510/favoritos/1
+En el body:
+{
+  "usu_id": 2,
+  "pro_id": 3
+}
+y en la paleta HEADERS, agregar:
+Authorization Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTEsImVtYWlsIjoiZGRkZC5wZXJlekBlbWFpbC5jb20iLCJpYXQiOjE3MzkxNTQyMjQsImV4cCI6MTczOTE1NzgyNH0.e6Qh4DF8zygh9pJ265w3S1cmmMrjHJXCQH-MNNlYVyA
