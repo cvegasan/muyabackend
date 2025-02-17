@@ -163,15 +163,17 @@ CREATE TABLE usuarios (
     usu_nombre VARCHAR(100) NOT NULL,
     usu_email VARCHAR(100) UNIQUE NOT NULL,
     usu_contrasena TEXT NOT NULL,
-    usu_direccion TEXT,
-    usu_telefono VARCHAR(20),
+    --> 2025.02.17 INI cvegasan Se eliminan campos del modelo para ajustar a formulario registro
+    --usu_direccion TEXT,
+    --usu_telefono VARCHAR(20),
+    --< 2025.02.17 FIN cvegasan Se eliminan campos del modelo para ajustar a formulario registro
     rol_id int REFERENCES roles(rol_id), -- '1 Admin' o '2 Cliente'
     usu_fecha_registro DATE DEFAULT CURRENT_DATE
 );
-INSERT INTO usuarios (usu_nombre, usu_email, usu_contrasena, usu_direccion, usu_telefono, rol_id) VALUES
-('Alice Flores', 'alice@example.com', 'hashedpassword123', 'Av. Jardines 123, Ciudad Verde', '123456789', 2), --cliente
-('Bob Jardinero', 'bob@example.com', 'hashedpassword456', 'Calle Plantas 456, Ciudad Verde', '987654321', 3),
-('Admin Plantas', 'admin@example.com', 'hashedpassword789', 'Av. Central 789, Ciudad Verde', '111222333', 1);
+INSERT INTO usuarios (usu_nombre, usu_email, usu_contrasena, rol_id) VALUES
+('Alice Flores', 'alice@example.com', 'hashedpassword123', 2), --cliente
+('Bob Jardinero', 'bob@example.com', 'hashedpassword456', 3),
+('Admin Plantas', 'admin@example.com', 'hashedpassword789', 1);
 
 
 --3 CATEGORÍAS (categorias)
@@ -200,9 +202,11 @@ CREATE TABLE productos (
 );
 INSERT INTO productos (pro_descripcion, pro_caracteristica, pro_precio, pro_stock, pro_imagen_url, cat_id)
 VALUES
-('Rosa del Desierto', 'Planta decorativa resistente al sol'		, 1000, 1000, 'url-imagen-rosa', 1),
-('Palas de Jardinería', 'Pala multiusos para jardinería'		, 2000, 1000, 'url-imagen-palas', 2),
-('Compost Orgánico', 'Compost natural para mejorar el suelo'	, 3000, 1000, 'url-imagen-compost', 3);
+('Macetero de Cerámica', 'Macetero hecho a mano con acabado rústico', 950, 20, 'https://res.cloudinary.com/dcv4katvi/image/upload/v1739732674/pro_id_1_xvr7rq.jpg', 4)
+('Sustrato para Plantas', 'Sustrato universal para todo tipo de plantas', 8500, 50, 'https://res.cloudinary.com/dcv4katvi/image/upload/v1739732752/2_zydqop.jpg', 3)
+('Regadera Metálica', 'Regadera de acero inoxidable con diseño ergonómico', 12000, 30, 'https://res.cloudinary.com/dcv4katvi/image/upload/v1739732871/3_nvdlwd.jpg', 1)
+('Fertilizante Orgánico', 'Fertilizante natural para estimular el crecimiento',7000, 25, 'https://res.cloudinary.com/dcv4katvi/image/upload/v1739732871/4_b1umds.jpg', 3)
+('Kit de Herramientas para Jardinería',	'Set de 5 herramientas esenciales para jardinería',12500 ,15, 'https://res.cloudinary.com/dcv4katvi/image/upload/v1739732872/5_bs0zba.jpg',2)
 
 
 --5 Carrito de Compras (carrito)
