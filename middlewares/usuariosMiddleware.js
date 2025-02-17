@@ -7,28 +7,62 @@ dotenv.config();
 
 export const verifyCredentials = async (req, res, next) => {
   try {
-    const { usu_email, usu_contrasena } = req.body;  
-    if (!usu_email || !usu_contrasena) {
+
+    const { email, password } = req.body;  
+
+    if (!email || !password) {
       throw { message: 'Email and password required.' };
     }
-    const user = await usersModel.getUser(usu_email);
+    const user = await usersModel.getUser(email);
     if (!user) {
-      throw { message: `This email is not registered ${usu_email}.` };
+      throw { message: `This email is not registered ${email}.` };
     }
 
-    const {password, id} = await usersModel.getContrasena(usu_email, usu_contrasena);
-    const verifyPassword = await bcrypt.compare(usu_contrasena, password);
+
+    const { passwordBD, id } = await usersModel.getContrasena(email, password);
+
+    const verifyPassword = await bcrypt.compare(password, passwordBD);
     if (!verifyPassword) {
       throw { message: 'Incorrect password.' };
     }
-    req.user = { id, email: usu_email };    
+    req.user = { id, email: email };    
     next();
+
   } catch (error) {
     console.log('Error Login: ', error.message);
     res.status(500).json({ message: error.message });
   }
 };
 
+export const verifyData = async (req, res, next) => {
+  try {
+    const { nombre, email, password, password2 } = req.body;
+    const user = await usersModel.getUser(email);
+
+    if (!nombre || !email || !password || !password2) {
+      throw new Error('Name, Email and Password required.');
+    }
+
+    if (user) {
+      throw new Error(`This email is registered ${email}.`);
+    }
+
+    if (password !== password2) {
+      throw new Error('Different Passwords');
+    }
+
+    req.user = {
+      nombre: nombre,
+      email: email,
+      password: password,
+      password2: password2
+    };
+    next();    
+  } catch (error) {
+    console.error('verifyData Error Register:', error.message);
+    res.status(400).json({ error: error.message });
+  }
+};
 
 export const verifyToken = (req, res, next) => {
   try {

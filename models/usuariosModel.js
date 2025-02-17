@@ -11,13 +11,12 @@ const getAllUsers = async () => {
   }
 };
 
-const createUser = async ({usu_nombre, usu_email, usu_contrasena, usu_direccion, usu_telefono, rol_id}) => {
-
+const createUser = async ({nombre, email, password, rol = 2}) => {
   const query = format(
-    `INSERT INTO usuarios (usu_nombre, usu_email, usu_contrasena, usu_direccion, usu_telefono, rol_id)
-     VALUES (%L, %L, %L, %L, %L, %L)
+    `INSERT INTO usuarios (usu_nombre, usu_email, usu_contrasena, rol_id)
+     VALUES (%L, %L, %L, %L)
      RETURNING *;`,
-    usu_nombre, usu_email, usu_contrasena, usu_direccion, usu_telefono, rol_id
+    nombre, email, password, rol
   );
   const result = await pool.query(query);
   return result.rows[0];
@@ -42,7 +41,7 @@ const getContrasena = async (usu_email) => {
       const usu_contrasena = result.rows[0].usu_contrasena;
       const usu_id = result.rows[0].usu_id;
       return {
-        password: usu_contrasena,
+        passwordBD: usu_contrasena,
         id: usu_id
       };
     }
