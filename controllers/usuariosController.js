@@ -31,8 +31,8 @@ const registerUser = async (req, res) => {
     const { usu_nombre, usu_email, usu_contrasena, usu_direccion,usu_telefono,rol_id } = req.body;
     console.log("Datos recibidos en req.body:", req.body);
 
-    if (!usu_nombre || !usu_email || !usu_contrasena || !usu_direccion|| !usu_telefono) {
-      throw new Error ('Los campos nombre, email, contraseña, dirección y teléfono son obligatorios.');
+    if (!nombre || !email || !password || !password2 ) {
+      throw new Error ('Los campos nombre, email, contraseña son obligatorios.');
     }
 
     const verifyEmail = await usersModel.verifyUserEmail(usu_email);
@@ -46,8 +46,6 @@ const registerUser = async (req, res) => {
       usu_nombre
       ,usu_email
       ,usu_contrasena: bcrypt.hashSync(usu_contrasena, 10)
-      ,usu_direccion
-      ,usu_telefono
       ,rol_id
     });
 
