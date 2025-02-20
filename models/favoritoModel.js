@@ -131,7 +131,13 @@ const putActualizarFavoritos = async (fav_id, { usu_id, pro_id }) => {
 // Eliminar un favorito
 const deleteEliminarFavoritos = async (id) => {
   try {
-    const query = format("DELETE FROM favoritos WHERE fav_id = %L RETURNING *", id);
+    // const query = format("DELETE FROM favoritos WHERE fav_id = %L RETURNING *", id);
+    const query = format(
+      `DELETE FROM favoritos 
+       WHERE usu_id = %L AND pro_id = %L 
+       RETURNING fav_id, usu_id, pro_id, fecha;`,
+      usu_id, pro_id
+    );
     const result = await pool.query(query);
     return result.rows.length > 0 ? { message: "Favorito eliminado correctamente" } : { message: "Favorito no encontrado" };
   } catch (error) {
