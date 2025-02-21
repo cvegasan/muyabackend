@@ -77,8 +77,19 @@ const getResenaByUser = async (id) => {
 const postCrearResena = async (resena) => {
   try {
     const { usu_id, pro_id, res_calificacion, res_comentario } = resena;
+    // const query = format(
+    //   "INSERT INTO resenas (usu_id, pro_id, res_calificacion, res_comentario) VALUES (%s, %s, %s, %L) RETURNING *",
+    //   usu_id, pro_id, res_calificacion, res_comentario
+    // );
     const query = format(
-      "INSERT INTO resenas (usu_id, pro_id, res_calificacion, res_comentario) VALUES (%s, %s, %s, %L) RETURNING *",
+      `WITH inserted AS (
+        INSERT INTO resenas (usu_id, pro_id, res_calificacion, res_comentario) 
+        VALUES (%s, %s, %s, %L) 
+        RETURNING usu_id, res_comentario, res_calificacion, TO_CHAR(res_fecha, 'dd-mm-yyyy') AS res_fecha
+      )
+      SELECT i.res_comentario, i.res_calificacion, i.res_fecha, u.usu_nombre
+      FROM inserted i
+      JOIN usuarios u ON i.usu_id = u.usu_id`,
       usu_id, pro_id, res_calificacion, res_comentario
     );
 
