@@ -6,6 +6,7 @@ const router = Router();
 //SIN RESTRICCIONES
 router.get("/", resenaController.getAllResena);
 router.get("/:id", resenaController.getResenaById);
+router.get("/producto/:id", resenaController.getResenaByProdId);
 router.get("/producto/usuario/:id",resenaController.getResenaByUser);
 router.post("/", resenaController.postCrearResena);
 router.put("/:id", resenaController.putActualizarResena);

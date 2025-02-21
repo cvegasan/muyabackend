@@ -3,9 +3,9 @@ import format from "pg-format";
 
 
 // Obtener todas las reseñas
-const getAllResena = async () => {
+const getAllResena = async (id) => {
   try {
-    const query = "SELECT * FROM resenas";
+    const query = format(`SELECT * FROM resenas`);
     const result = await pool.query(query);
     return result.rows;
   } catch (error) {
@@ -17,11 +17,31 @@ const getAllResena = async () => {
 // Obtener una reseña por ID
 const getResenaById = async (id) => {
   try {
-    const query = format("SELECT * FROM resenas WHERE res_id = %s", id);
+    const query = format(`SELECT * FROM resenas WHERE res_id = %s`, id);
     const result = await pool.query(query);
     return result.rows[0] || null;
   } catch (error) {
     console.error("Error en getResenaById:", error);
+    throw error;
+  }
+};
+
+// Obtener todas las reseñas por id producto
+const getResenaByIdProd = async (id) => {
+  try {
+    const query = format(`SELECT
+                            u.usu_nombre
+                            ,res_comentario
+                            ,res_calificacion
+                          FROM 
+                          resenas r 
+                          INNER JOIN usuarios u
+                            on u.usu_id = r.usu_id
+                          WHERE pro_id = %s;`, id);
+    const result = await pool.query(query);
+    return result.rows;
+  } catch (error) {
+    console.error("Error en getResenaByIdProd:", error);
     throw error;
   }
 };
@@ -101,6 +121,7 @@ const deleteEliminarResena = async (id) => {
 export const resenaModel = {
     getAllResena,
     getResenaById,
+    getResenaByIdProd,
     getResenaByUser,
     postCrearResena,
     putActualizarResena,
