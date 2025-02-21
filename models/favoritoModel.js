@@ -130,19 +130,27 @@ const putActualizarFavoritos = async (fav_id, { usu_id, pro_id }) => {
 
 // Eliminar un favorito
 const deleteEliminarFavoritos = async (usu_id, pro_id) => {
-   //try {
-    // const query = format("DELETE FROM favoritos WHERE fav_id = %L RETURNING *", id);
+  try {
+    // Usamos pg-format para construir la consulta SQL
     const query = format(
       `DELETE FROM favoritos 
-       WHERE usu_id = %s AND pro_id = %s 
+       WHERE usu_id = %L AND pro_id = %L 
        RETURNING fav_id, usu_id, pro_id, fecha;`,
       usu_id, pro_id
     );
+
+    // Ejecutamos la consulta con la conexión a la base de datos
     const result = await pool.query(query);
-    return result.rows.length > 0 ? { message: "Favorito eliminado correctamente" } : { message: "Favorito no encontrado" };
-  //  } catch (error) {
-  //    throw new Error("Error al eliminar el favorito");
-  //  }
+
+    // Verificar si se eliminó un favorito
+    if (result.rows.length > 0) {
+      return { message: "Favorito eliminado correctamente", data: result.rows[0] };
+    } else {
+      return { message: "Favorito no encontrado" };
+    }
+  } catch (error) {
+    throw new Error("Error al eliminar el favorito: " + error.message);
+  }
 };
 
 export const favoritosModel = {

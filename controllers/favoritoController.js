@@ -74,15 +74,19 @@ const putActualizarFavoritos = async (req, res) => {
 
 const deleteEliminarFavoritos = async (req, res) => {
   try {
-    // const { id } = req.params;
-    // const result = await favoritosModel.deleteEliminarFavoritos(id);
-    // res.json(result);
-    const { usu_id, pro_id } = req.body;
+    // Obtener los parámetros desde la URL
+    const { usu_id, pro_id } = req.params;
+
+    // Validar que los parámetros existen
     if (!usu_id || !pro_id) {
       return res.status(400).json({ error: "usu_id y pro_id son requeridos" });
     }
-    const result = await favoritosModel.deleteEliminarFavoritos({ usu_id, pro_id });
-    res.status(201).json(result);
+
+    // Llamar al modelo para eliminar el favorito
+    const result = await favoritosModel.deleteEliminarFavoritos(usu_id, pro_id);
+
+    // Responder con el resultado
+    res.status(200).json(result);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
