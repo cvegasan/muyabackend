@@ -33,7 +33,7 @@ const getResenaByIdProd = async (id) => {
                             u.usu_nombre
                             ,res_comentario
                             ,res_calificacion
-                            ,res_fecha
+                            ,TO_CHAR(r.res_fecha,'dd-mm-yyyy') as res_fecha
                           FROM 
                           resenas r 
                           INNER JOIN usuarios u
