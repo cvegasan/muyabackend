@@ -24,9 +24,9 @@ const getResenaById = async (req, res) => {
 };
 
 // Obtener una reseña por ID
-const getResenaByProdId = async (req, res) => {
+const getResenaByIdProd = async (req, res) => {
   try {
-    const resena = await resenaModel.getResenaByProdId(req.params.id);
+    const resena = await resenaModel.getResenaByIdProd(req.params.id);
     if (!resena) return res.status(404).json({ error: "Reseña no encontrada" });
     res.json(resena);
   } catch (error) {
@@ -79,7 +79,7 @@ const deleteEliminarResena = async (req, res) => {
 export const resenaController = {
     getAllResena,
     getResenaById,
-    getResenaByProdId,
+    getResenaByIdProd,
     getResenaByUser,
     postCrearResena,
     putActualizarResena,
